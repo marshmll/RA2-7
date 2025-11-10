@@ -1,7 +1,7 @@
 {-
   Atividade Avaliativa - RA2 (Haskell)
   Estrutura do Projeto - Gerenciador de Inventário
-  Autor: Integrante 1 (Arquiteto de Dados)
+  Autor: Integrante 2 (Lógica de Negócio)
 -}
 import qualified Data.Map as Map
 import Data.Map (Map)
@@ -35,5 +35,38 @@ data LogEntry = LogEntry {
 
 type ResultadoOperacao = (Inventario, LogEntry)
 
+----------------------------------------------------------------------
+-- PARTE 2: LÓGICA DE NEGÓCIO PURA (Funções Puras)
+----------------------------------------------------------------------
+
+addItem :: UTCTime -> String -> String -> Int -> String -> Inventario -> Either String ResultadoOperacao
+addItem time id nome qtd cat inv =
+    if Map.member id inv
+    then Left $ "Falha: Item com ID '" ++ id ++ "' já existe."
+    else
+        let novoItem = Item id nome qtd cat
+            novoInv = Map.insert id novoItem inv
+            logEntry = LogEntry time Add ("ItemID: " ++ id ++ ", Adicionado: " ++ nome) Sucesso
+        in Right (novoInv, logEntry)
+
+removeItem :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
+removeItem time id qtdRemover inv =
+    case Map.lookup id inv of
+        Nothing -> Left $ "Falha: Item com ID '" ++ id ++ "' não encontrado."
+        Just item ->
+            if quantidade item < qtdRemover
+            then Left $ "Falha: Estoque insuficiente para '" ++ nome item ++ "'."
+            else
+                let novaQtd = quantidade item - qtdRemover
+                    novoInv = if novaQtd == 0 then Map.delete id inv
+                               else Map.adjust (\i -> i { quantidade = novaQtd }) id inv
+                    logEntry = LogEntry time Remove ("ItemID: " ++ id ++ ", Removido " ++ show qtdRemover) Sucesso
+                in Right (novoInv, logEntry)
+
+listarItens :: Inventario -> String
+listarItens inv
+    | Map.null inv = "Inventário está vazio."
+    | otherwise = unlines $ map (\i -> itemID i ++ " - " ++ nome i ++ ": " ++ show (quantidade i)) (Map.elems inv)
+
 main :: IO ()
-main = putStrLn "Estrutura de tipos criada com sucesso."
+main = putStrLn "Funções puras implementadas com sucesso."
