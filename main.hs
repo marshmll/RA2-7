@@ -65,6 +65,29 @@ addItem time id nome qtd cat inv =
             logEntry = LogEntry time Add ("ItemID: " ++ id ++ ", Adicionado: " ++ nome) Sucesso
         in Right (novoInv, logEntry)
 
+
+updateItem :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
+updateItem time id novaQtd inv =
+    case Map.lookup id inv of
+        Nothing -> Left $ "Falha: Item com ID '" ++ id ++ "' nao encontrado."
+        Just item ->
+            if novaQtd < 0
+            then Left $ "Valores negativos não são permitidos."
+            else
+                let
+                    (novoInv, logMsg) =
+                        if novaQtd == 0
+                        then ( Map.delete id inv
+                             , "ItemID: " ++ id ++ ", Removido (Estoque Zerado): " ++ nome item
+                             )
+                        else ( Map.adjust (\i -> i { quantidade = novaQtd }) id inv
+                             , "ItemID: " ++ id ++ ", Quantidade alterada para " ++ show novaQtd ++ " de '" ++ nome item ++ "'"
+                             )
+
+                    logEntry = LogEntry time Remove logMsg Sucesso
+                
+                in Right (novoInv, logEntry)
+                
 removeItem :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
 removeItem time id qtdRemover inv =
     case Map.lookup id inv of
@@ -201,6 +224,13 @@ processarComando time comando (inv, logs) =
                     Left erro -> lidarFalha erro
                     Right (novoInv, logEntry) -> lidarSucesso novoInv logEntry
 
+        ["update", id, qtdStr] -> do
+            case readMaybe qtdStr of
+                Nothing -> lidarFalha "Quantidade invalida."
+                Just qtd -> case updateItem time id qtd inv of
+                    Left erro -> lidarFalha erro
+                    Right (novoInv, logEntry) -> lidarSucesso novoInv logEntry
+
         ["remove", id, qtdStr] -> do
             case readMaybe qtdStr of
                 Nothing -> lidarFalha "Quantidade invalida."
@@ -258,6 +288,7 @@ exibirAjuda :: IO ()
 exibirAjuda = do
     putStrLn "--- Comandos Disponiveis ---"
     putStrLn "add <id> <nome> <qtd> <categoria> - Adiciona um novo item"
+    putStrLn "update <id> <qtd> - Atualiza quantidade do item"
     putStrLn "remove <id> <qtd> - Remove quantidade do item"
     putStrLn "listar - Lista todos os itens"
     putStrLn "report - Exibe relatorios (erros + item mais movimentado)"
