@@ -66,8 +66,8 @@ addItem time id nome qtd cat inv =
         in Right (novoInv, logEntry)
 
 
-updateItem :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
-updateItem time id novaQtd inv =
+updateQty :: UTCTime -> String -> Int -> Inventario -> Either String ResultadoOperacao
+updateQty time id novaQtd inv =
     case Map.lookup id inv of
         Nothing -> Left $ "Falha: Item com ID '" ++ id ++ "' nao encontrado."
         Just item ->
@@ -191,7 +191,7 @@ salvarInventario inv = writeFile arqInventario (show inv)
 salvarLog :: [LogEntry] -> LogEntry -> IO [LogEntry]
 salvarLog logsAntigos novoLog = do
     let novosLogs = logsAntigos ++ [novoLog]
-    writeFile arqAuditoria (show novosLogs)
+    appendFile arqAuditoria (show novosLogs)
     return novosLogs
 
 main :: IO ()
@@ -227,7 +227,7 @@ processarComando time comando (inv, logs) =
         ["update", id, qtdStr] -> do
             case readMaybe qtdStr of
                 Nothing -> lidarFalha "Quantidade invalida."
-                Just qtd -> case updateItem time id qtd inv of
+                Just qtd -> case updateQty time id qtd inv of
                     Left erro -> lidarFalha erro
                     Right (novoInv, logEntry) -> lidarSucesso novoInv logEntry
 
