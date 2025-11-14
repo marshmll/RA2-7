@@ -88,7 +88,7 @@ updateQty time id novaQtd inv =
                              , "ItemID: " ++ id ++ ", Quantidade alterada para " ++ show novaQtd ++ " de '" ++ nome item ++ "'"
                              )
 
-                    logEntry = LogEntry time Remove logMsg Sucesso
+                    logEntry = LogEntry time Update logMsg Sucesso
                 
                 in Right (novoInv, logEntry)
                 
@@ -135,7 +135,7 @@ formatarLogsDeErro logs
 historicoPorItem :: String -> [LogEntry] -> [LogEntry]
 historicoPorItem idAlvo logs =
     filter (\log ->
-        acao log `elem` [Add, Remove] &&
+        acao log `elem` [Add, Remove, Update] &&
         ("ItemID: " ++ idAlvo) `isInfixOf` detalhes log
     ) logs
 
@@ -299,8 +299,8 @@ exibirAjuda :: IO ()
 exibirAjuda = do
     putStrLn "--- Comandos Disponiveis ---"
     putStrLn "add <id> <nome> <qtd> <categoria> - Adiciona um novo item"
-    putStrLn "update <id> <qtd> - Atualiza quantidade do item"
-    putStrLn "remove <id> <qtd> - Remove quantidade do item"
+    putStrLn "update <id> <qtd> - Atualiza quantidade do item (remove se quantidade = 0)"
+    putStrLn "remove <id> <qtd> - Remove quantidade do item (remove se estoque zerar)"
     putStrLn "listar - Lista todos os itens"
     putStrLn "report - Exibe relatorios (erros + item mais movimentado)"
     putStrLn "historico <id> - Mostra historico de um item"
