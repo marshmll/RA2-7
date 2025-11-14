@@ -1,8 +1,10 @@
 {-
-  Atividade Avaliativa - RA2 (Haskell)
-  Estrutura do Projeto - Gerenciador de Inventário
-  Este arquivo contém o esqueleto completo do sistema,
-  pronto para a implementação da lógica de negócio.
+    PUCPR - Programação Lógica e Funcional
+    Atividade Avaliativa - RA2 (Haskell)
+    Estrutura do Projeto - Gerenciador de Inventário
+    Nomes: Pedro Senes Velloso Ribeiro, Renan da Silva
+    Oliveira Andrade, Ricardo Lucas Kucek, Riscala
+    Miguel Fadel Neto.
 -}
 
 -- Importações necessárias
