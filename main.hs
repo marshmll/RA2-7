@@ -11,13 +11,15 @@ import Data.Map (Map)
 import Data.Time.Clock (UTCTime, getCurrentTime)
 import System.IO
 import System.IO.Error (isDoesNotExistError)
-import Control.Exception (catch, SomeException, toException)
+import Control.Exception (catch, SomeException, toException, IOException, evaluate)
 import Text.Read (readMaybe)
 import Data.List (sortBy, groupBy, isInfixOf, maximumBy)
 import Data.Function (on)
 import Data.Maybe (mapMaybe)
 import Data.Ord (comparing)
 import System.IO.Error (isDoesNotExistError, catchIOError)
+import Data.Char (isSpace)
+import System.Directory (doesFileExist)
 
 ----------------------------------------------------------------------
 -- PARTE 1: ARQUITETO DE DADOS (Tipos de Dados)
@@ -169,12 +171,19 @@ carregarInventario = (do
     ) `catchIOError` lidarExcecaoLeitura Map.empty
 
 carregarLogs :: IO [LogEntry]
-carregarLogs = (do
-    conteudo <- readFile arqAuditoria
-    case readMaybe conteudo of
-        Nothing -> putStrLn "Aviso: Auditoria.log corrompido → iniciando vazio" >> return []
-        Just l   -> return l
-    ) `catchIOError` lidarExcecaoLeitura []
+carregarLogs = catch readLog handler
+  where
+    readLog = do
+      exists <- doesFileExist arqAuditoria
+      if not exists then return []
+      else do
+        s <- withFile arqAuditoria ReadMode $ \h -> do
+          content <- hGetContents h
+          evaluate (length content `seq` content)
+        let ls = filter (not . all isSpace) (lines s)
+        return $ mapMaybe readMaybe ls
+    handler :: IOException -> IO [LogEntry]
+    handler _ = return []
 
 lidarExcecaoLeitura :: a -> IOError -> IO a
 lidarExcecaoLeitura valorPadrao err
@@ -191,7 +200,7 @@ salvarInventario inv = writeFile arqInventario (show inv)
 salvarLog :: [LogEntry] -> LogEntry -> IO [LogEntry]
 salvarLog logsAntigos novoLog = do
     let novosLogs = logsAntigos ++ [novoLog]
-    appendFile arqAuditoria (show novosLogs)
+    appendFile arqAuditoria (show novoLog ++ "\n")
     return novosLogs
 
 main :: IO ()
