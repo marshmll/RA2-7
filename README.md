@@ -232,7 +232,7 @@ RA2-7/
 ## Instruções de Compilação e Execução
 
 ### Online GDB
-1. Acessar [LINK DO ONLINE GDB](https://onlinegdb.com/Ob0m4U-UCO)
+1. Acessar [LINK DO ONLINE GDB](https://onlinegdb.com/v4oxo63n5K)
 2. Colar código completo na aba Haskell
 3. Clicar em "Run"
 4. Interagir via terminal integrado
