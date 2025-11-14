@@ -19,7 +19,7 @@
 
 ## Link de Execução do Projeto
 
-**Ambiente de Execução Online**: [https://onlinegdb.com/WlztGOW8_](https://onlinegdb.com/WlztGOW8_)
+**Ambiente de Execução Online**: [https://www.onlinegdb.com/VmIJHgYON#](https://www.onlinegdb.com/VmIJHgYON#)
 
 ## Especificação Técnica do Sistema
 
@@ -241,10 +241,9 @@ RA2-7/
 ## Instruções de Compilação e Execução
 
 ### Online GDB
-1. Acessar [LINK DO ONLINE GDB](https://onlinegdb.com/WlztGOW8_)
-2. Colar código completo na aba Haskell
-3. Clicar em "Run"
-4. Interagir via terminal integrado
+1. Acessar [LINK DO ONLINE GDB](https://www.onlinegdb.com/VmIJHgYON#)
+2. Clicar em "Run"
+3. Interagir via terminal integrado
 
 ## Conclusão
 Este sistema atende integralmente todos os requisitos especificados na rubrica avaliativa RA2, demonstrando:
