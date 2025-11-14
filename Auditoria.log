@@ -1,0 +1,10 @@
+LogEntry {timestamp = 2025-11-14 18:28:01.938535656 UTC, acao = Add, detalhes = "ItemID: 001, Adicionado: Teclado", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.938760838 UTC, acao = Add, detalhes = "ItemID: 002, Adicionado: Mouse", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.938875868 UTC, acao = Add, detalhes = "ItemID: 003, Adicionado: Monitor", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.938996399 UTC, acao = Add, detalhes = "ItemID: 004, Adicionado: Notebook", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.939133664 UTC, acao = Add, detalhes = "ItemID: 005, Adicionado: Impressora", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.939248909 UTC, acao = Add, detalhes = "ItemID: 006, Adicionado: Cadeira", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.939412614 UTC, acao = Add, detalhes = "ItemID: 007, Adicionado: Mesa", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.939563583 UTC, acao = Add, detalhes = "ItemID: 008, Adicionado: Tablet", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.939729808 UTC, acao = Add, detalhes = "ItemID: 009, Adicionado: Smartphone", status = Sucesso}
+LogEntry {timestamp = 2025-11-14 18:28:01.93990004 UTC, acao = Add, detalhes = "ItemID: 010, Adicionado: FoneOuvido", status = Sucesso}
