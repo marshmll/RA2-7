@@ -168,6 +168,11 @@ add 010 FoneOuvido 30 Acessorios
 4. Reiniciar sistema
 5. Executar `listar` para verificar carga
 
+![Print 1 cenario 1](imagens/Teste1Print1.png)
+![Print 2 cenario 1](imagens/Teste1Print2.png)
+![Print 3 cenario 1](imagens/Teste1Print3.png)
+
+
 **Resultado Esperado**: Os 3 itens devem aparecer no inventário após reinicialização
 
 ### Cenário 2: Validação de Lógica de Negócio
@@ -179,6 +184,8 @@ add 010 FoneOuvido 30 Acessorios
 3. Verificar mensagem de erro
 4. Executar `listar` para confirmar quantidade
 
+![Print cenario 2](imagens/Teste2.png)
+
 **Resultado Esperado**: Mensagem "Falha: Estoque insuficiente", quantidade mantida em 10
 
 ### Cenário 3: Geração de Relatórios
@@ -188,6 +195,8 @@ add 010 FoneOuvido 30 Acessorios
 1. Executar Cenário 2 para gerar erro
 2. Executar `report`
 3. Verificar saída dos relatórios
+
+![Print cenario 3](imagens/Teste3.png)
 
 **Resultado Esperado**: Relatório de erros deve mostrar a falha de estoque insuficiente
 
