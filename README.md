@@ -19,7 +19,7 @@
 
 ## Link de Execução do Projeto
 
-**Ambiente de Execução Online**: [https://www.onlinegdb.com/VmIJHgYON#](https://www.onlinegdb.com/VmIJHgYON#)
+**Ambiente de Execução Online**: [https://onlinegdb.com/_F-js8Kh-](https://onlinegdb.com/_F-js8Kh-)
 
 ## Especificação Técnica do Sistema
 
@@ -68,14 +68,14 @@ type ResultadoOperacao = (Inventario, LogEntry)
 #### Operações Principais
 
 - **`addItem`**: Adiciona novo item ao inventário
-- **`removeItem`**: Remove quantidade de item existente
-- **`updateItem`**: Atualiza quantidade de item
+- **`removeItem`**: Remove quantidade de item existente (remove item se quantidade chegar a zero)
+- **`updateQty`**: Atualiza quantidade do item (remove item se quantidade for definida como zero)
 - **`listarItens`**: Lista todos os itens formatados
 
 #### Funções de Análise e Relatório
 
 - **`logsDeErro`**: Filtra logs com status de falha
-- **`historicoPorItem`**: Histórico de operações por item
+- **`historicoPorItem`**: Histórico de operações por item (inclui Add, Remove e Update)
 - **`itemMaisMovimentado`**: Identifica item com mais movimentações
 - **`formatarLogsDeErro`**: Formata logs para exibição
 
@@ -98,13 +98,18 @@ type ResultadoOperacao = (Inventario, LogEntry)
 | Comando | Sintaxe | Descrição |
 |---------|---------|-----------|
 | `add` | `add <id> <nome> <qtd> <categoria>` | Adiciona novo item |
-| `remove` | `remove <id> <qtd>` | Remove quantidade |
-| `update` | `update <id> <nova_qtd>` | Atualiza quantidade |
+| `remove` | `remove <id> <qtd>` | Remove quantidade (remove item se estoque zerar) |
+| `update` | `update <id> <nova_qtd>` | Atualiza quantidade (remove item se estoque zerar) |
 | `listar` | `listar` | Lista todos os itens |
-| `report` | `report` | Gera relatórios |
-| `historico` | `historico <id>` | Histórico do item |
+| `report` | `report` | Gera relatórios de erros e item mais movimentado |
+| `historico` | `historico <id>` | Histórico completo do item (Add, Remove, Update) |
 | `ajuda` | `ajuda` | Ajuda dos comandos |
 | `sair` | `sair` | Encerra sistema |
+
+### 6. Comportamento Especial
+- Quando a quantidade chega a **0** em `updateQty` ou `removeItem`, o item é **automaticamente removido** do inventário
+- Esta ação é registrada no log com detalhes específicos
+- O histórico de itens inclui operações de `Add`, `Remove` e `Update`
 
 ## Evidências de Conformidade com a Rubrica
 
@@ -112,7 +117,7 @@ type ResultadoOperacao = (Inventario, LogEntry)
 
 #### 1. Separação Lógica Pura/Impura
 
-- **Lógica Pura**: `addItem`, `removeItem`, `updateItem`, `listarItens`
+- **Lógica Pura**: `addItem`, `removeItem`, `updateQty`, `listarItens`
 - **Operações I/O**: `main`, `loopPrincipal`, funções de arquivo
 - **Sem mistura**: Nenhuma operação de I/O dentro das funções puras
 
@@ -139,7 +144,7 @@ deriving (Show, Read, Eq, Ord)
 - Permite serialização/desserialização completa
 - Testado com `read . show` para verificação
 
-### 6. Dados Mínimos para Teste
+### 7. Dados Mínimos para Teste
 
 Conjunto de 10 itens distintos para validação:
 
@@ -171,7 +176,6 @@ add 010 FoneOuvido 30 Acessorios
 ![Print 1 cenario 1](imagens/Teste1Print1.png)
 ![Print 2 cenario 1](imagens/Teste1Print2.png)
 ![Print 3 cenario 1](imagens/Teste1Print3.png)
-
 
 **Resultado Esperado**: Os 3 itens devem aparecer no inventário após reinicialização
 
@@ -241,7 +245,7 @@ RA2-7/
 ## Instruções de Compilação e Execução
 
 ### Online GDB
-1. Acessar [LINK DO ONLINE GDB](https://www.onlinegdb.com/VmIJHgYON#)
+1. Acessar [LINK DO ONLINE GDB](https://onlinegdb.com/_F-js8Kh-)
 2. Clicar em "Run"
 3. Interagir via terminal integrado
 
@@ -251,3 +255,5 @@ Este sistema atende integralmente todos os requisitos especificados na rubrica a
 - Correta separação entre lógica pura e operações de I/O
 - Implementação robusta de persistência e auditoria
 - Conformidade total com as especificações de nomenclatura e funcionalidade
+- Comportamentos especiais documentados (remoção automática com estoque zero)
+- Histórico completo de operações incluindo atualizações
