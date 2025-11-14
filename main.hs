@@ -157,7 +157,7 @@ itemMaisMovimentado inv logs =
          [] -> "Nenhuma movimentação registrada."
          _  -> let (idTop, qtd) = maximumBy (comparing snd) contagens
                    nomeItem = maybe ("ID: " ++ idTop) nome $ Map.lookup idTop inv
-               in nomeItem ++ " (ID: " ++ idTop ++ ") → " ++ show qtd ++ " movimentações"
+               in nomeItem ++ " (ID: " ++ idTop ++ ") -> " ++ show qtd ++ " movimentações"
 
 ----------------------------------------------------------------------
 -- PARTE 3: MÓDULO DE I/O E PERSISTÊNCIA (Ações Impuras)
